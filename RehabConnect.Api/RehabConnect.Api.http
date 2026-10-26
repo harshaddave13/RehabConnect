@@ -1,0 +1,6 @@
+@RehabConnect.Api_HostAddress = http://localhost:5076
+
+GET {{RehabConnect.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
