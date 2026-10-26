@@ -10,6 +10,15 @@ public static class FhirResponse
 
     public static IResult Ok(Resource resource)
     {
+        var validationOutcome = FhirResourceValidator.Validate(resource);
+
+        if (validationOutcome.Issue.Count > 0)
+        {
+            return Json(
+                validationOutcome,
+                StatusCodes.Status500InternalServerError);
+        }
+
         return Json(resource, StatusCodes.Status200OK);
     }
 
