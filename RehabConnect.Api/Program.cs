@@ -75,4 +75,24 @@ app.MapGet("/fhir/Patient",
 .WithSummary("Search FHIR R4 patients by family name");
 
 
+app.MapGet("/fhir/Observation",
+    (string? patient, HttpRequest request) =>
+    {
+        var baseUrl =
+            $"{request.Scheme}://{request.Host}";
+
+        var bundle = FhirObservationSearch.Search(
+            patient,
+            baseUrl);
+
+        return FhirResponse.Ok(bundle);
+    })
+.WithName("SearchFhirObservations")
+.WithSummary(
+    "Search FHIR R4 observations by patient");
+
+
+
 app.Run();
+
+public partial class Program { }
