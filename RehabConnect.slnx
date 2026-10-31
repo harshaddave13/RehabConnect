@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="RehabConnect.Api/RehabConnect.Api.csproj" />
+  <Project Path="RehabConnect.Tests/RehabConnect.Tests.csproj" Id="6f57c775-d4cc-41c2-8603-560eab54affb" />
 </Solution>

@@ -1,6 +1,22 @@
-@RehabConnect.Api_HostAddress = http://localhost:5076
 
-GET {{RehabConnect.Api_HostAddress}}/weatherforecast/
-Accept: application/json
+@baseUrl = https://localhost:7102
 
-###
+### Search by exact family name
+GET {{baseUrl}}/fhir/Patient?family=Smith
+Accept: application/fhir+json
+
+### Search by partial family name
+GET {{baseUrl}}/fhir/Patient?family=Smi
+Accept: application/fhir+json
+
+### Search for unknown family name
+GET {{baseUrl}}/fhir/Patient?family=Williams
+Accept: application/fhir+json
+
+### Get all patients
+GET {{baseUrl}}/fhir/Patient
+Accept: application/fhir+json
+
+### Get patient by ID
+GET {{baseUrl}}/fhir/Patient/patient-001
+Accept: application/fhir+json

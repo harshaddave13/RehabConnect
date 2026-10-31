@@ -58,4 +58,21 @@ app.MapGet("/fhir/Observation/{id}", (string id) =>
 .WithSummary("Retrieve a rehabilitation pain observation");
 
 
+
+app.MapGet("/fhir/Patient",
+    (string? family, HttpRequest request) =>
+    {
+        var baseUrl =
+            $"{request.Scheme}://{request.Host}";
+
+        var bundle = FhirPatientSearch.Search(
+            family,
+            baseUrl);
+
+        return FhirResponse.Ok(bundle);
+    })
+.WithName("SearchFhirPatients")
+.WithSummary("Search FHIR R4 patients by family name");
+
+
 app.Run();
