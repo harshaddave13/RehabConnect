@@ -32,36 +32,12 @@ app.MapGet("/fhir/Patient/{id}", (string id) =>
 {
     if (id != "patient-001")
     {
-        var error = new
-        {
-            resourceType = "OperationOutcome",
-            issue = new[]
-            {
-                new
-                {
-                    severity = "error",
-                    code = "not-found",
-                    diagnostics = "Patient not found"
-                }
-            }
-        };
-
-        return Results.Json(
-            error,
-            statusCode: 404,
-            contentType: "application/fhir+json"
-        );
+        return FhirResponse.NotFound($"Patient '{id}' was not found.");
     }
 
     var patient = FhirSampleData.CreatePatient();
 
-    var serializer = new FhirJsonSerializer();
-    var json = serializer.SerializeToString(patient);
-
-    return Results.Json(
-        json,
-        contentType: "application/fhir+json"
-    );
+    return FhirResponse.Ok(patient);
 })
 .WithName("GetFhirPatient")
 .WithSummary("Retrieve a synthetic FHIR patient");
@@ -71,20 +47,52 @@ app.MapGet("/fhir/Observation/{id}", (string id) =>
 {
     if (id != "pain-001")
     {
-        return Results.NotFound();
+        return FhirResponse.NotFound($"Observation '{id}' was not found.");
     }
 
     var observation = FhirSampleData.CreatePainObservation();
 
-    var serializer = new FhirJsonSerializer();
-    var json = serializer.SerializeToString(observation);
-
-    return Results.Content(
-        json,
-        "application/fhir+json");
+    return FhirResponse.Ok(observation);
 })
 .WithName("GetFhirObservation")
 .WithSummary("Retrieve a rehabilitation pain observation");
 
 
+
+app.MapGet("/fhir/Patient",
+    (string? family, HttpRequest request) =>
+    {
+        var baseUrl =
+            $"{request.Scheme}://{request.Host}";
+
+        var bundle = FhirPatientSearch.Search(
+            family,
+            baseUrl);
+
+        return FhirResponse.Ok(bundle);
+    })
+.WithName("SearchFhirPatients")
+.WithSummary("Search FHIR R4 patients by family name");
+
+
+app.MapGet("/fhir/Observation",
+    (string? patient, HttpRequest request) =>
+    {
+        var baseUrl =
+            $"{request.Scheme}://{request.Host}";
+
+        var bundle = FhirObservationSearch.Search(
+            patient,
+            baseUrl);
+
+        return FhirResponse.Ok(bundle);
+    })
+.WithName("SearchFhirObservations")
+.WithSummary(
+    "Search FHIR R4 observations by patient");
+
+
+
 app.Run();
+
+public partial class Program { }
