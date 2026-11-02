@@ -17,9 +17,11 @@ Accept: application/fhir+json
 GET {{baseUrl}}/fhir/Patient
 Accept: application/fhir+json
 
+
 ### Get patient by ID
 GET {{baseUrl}}/fhir/Patient/patient-001
 Accept: application/fhir+json
+
 
 ### Search observations for known patient
 GET {{baseUrl}}/fhir/Observation?patient=patient-001
