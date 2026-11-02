@@ -24,4 +24,15 @@ public class RehabConnectWebApplicationFactory
                 "Test", options => { });
         });
     }
+
+    protected override void ConfigureClient(HttpClient client)
+    {
+        base.ConfigureClient(client);
+
+        client.DefaultRequestHeaders.Add(
+            "X-Test-User", "test-user");
+
+        client.DefaultRequestHeaders.Add(
+            "X-Test-Role", "Clinician");
+    }
 }

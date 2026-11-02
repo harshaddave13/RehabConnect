@@ -11,6 +11,18 @@ builder.Services
 
 builder.Services.AddAuthorization();
 
+builder.Services.AddAuthorization(options => 
+{ 
+    options.AddPolicy("ClinicalRead", policy =>
+        policy.RequireAuthenticatedUser()
+              .RequireRole("Clinician", "Admin"));
+
+    options.AddPolicy("AdminOnly", policy =>
+        policy.RequireAuthenticatedUser()
+              .RequireRole("Admin"));
+});
+
+
 // Register OpenAPI documentation services
 builder.Services.AddOpenApi();
 
@@ -49,7 +61,7 @@ app.MapGet("/fhir/Patient/{id}", (string id) =>
 
     return FhirResponse.Ok(patient);
 })
-.RequireAuthorization()
+.RequireAuthorization("ClinicalRead")
 .WithName("GetFhirPatient")
 .WithSummary("Retrieve a synthetic FHIR patient");
 
@@ -65,7 +77,7 @@ app.MapGet("/fhir/Observation/{id}", (string id) =>
 
     return FhirResponse.Ok(observation);
 })
-.RequireAuthorization()
+.RequireAuthorization("ClinicalRead")
 .WithName("GetFhirObservation")
 .WithSummary("Retrieve a rehabilitation pain observation");
 
@@ -83,7 +95,7 @@ app.MapGet("/fhir/Patient",
 
         return FhirResponse.Ok(bundle);
     })
-.RequireAuthorization()
+.RequireAuthorization("ClinicalRead")
 .WithName("SearchFhirPatients")
 .WithSummary("Search FHIR R4 patients by family name");
 
@@ -100,7 +112,7 @@ app.MapGet("/fhir/Observation",
 
         return FhirResponse.Ok(bundle);
     })
-.RequireAuthorization()
+.RequireAuthorization("ClinicalRead")
 .WithName("SearchFhirObservations")
 .WithSummary(
     "Search FHIR R4 observations by patient");
