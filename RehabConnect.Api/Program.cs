@@ -2,6 +2,7 @@ using Hl7.Fhir.Serialization;
 using RehabConnect.Api.Fhir;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using RehabConnect.Api.Audit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +37,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
+app.UseMiddleware<FhirAuditMiddleware>();
 app.UseAuthorization();
 
 // Application health endpoint
