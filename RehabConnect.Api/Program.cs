@@ -1,7 +1,28 @@
 using Hl7.Fhir.Serialization;
 using RehabConnect.Api.Fhir;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using RehabConnect.Api.Audit;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer();
+
+builder.Services.AddAuthorization();
+
+builder.Services.AddAuthorization(options => 
+{ 
+    options.AddPolicy("ClinicalRead", policy =>
+        policy.RequireAuthenticatedUser()
+              .RequireRole("Clinician", "Admin"));
+
+    options.AddPolicy("AdminOnly", policy =>
+        policy.RequireAuthenticatedUser()
+              .RequireRole("Admin"));
+});
+
 
 // Register OpenAPI documentation services
 builder.Services.AddOpenApi();
@@ -15,6 +36,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseMiddleware<FhirAuditMiddleware>();
+app.UseAuthorization();
 
 // Application health endpoint
 app.MapGet("/", () =>
@@ -39,6 +63,7 @@ app.MapGet("/fhir/Patient/{id}", (string id) =>
 
     return FhirResponse.Ok(patient);
 })
+.RequireAuthorization("ClinicalRead")
 .WithName("GetFhirPatient")
 .WithSummary("Retrieve a synthetic FHIR patient");
 
@@ -54,6 +79,7 @@ app.MapGet("/fhir/Observation/{id}", (string id) =>
 
     return FhirResponse.Ok(observation);
 })
+.RequireAuthorization("ClinicalRead")
 .WithName("GetFhirObservation")
 .WithSummary("Retrieve a rehabilitation pain observation");
 
@@ -71,6 +97,7 @@ app.MapGet("/fhir/Patient",
 
         return FhirResponse.Ok(bundle);
     })
+.RequireAuthorization("ClinicalRead")
 .WithName("SearchFhirPatients")
 .WithSummary("Search FHIR R4 patients by family name");
 
@@ -87,6 +114,7 @@ app.MapGet("/fhir/Observation",
 
         return FhirResponse.Ok(bundle);
     })
+.RequireAuthorization("ClinicalRead")
 .WithName("SearchFhirObservations")
 .WithSummary(
     "Search FHIR R4 observations by patient");

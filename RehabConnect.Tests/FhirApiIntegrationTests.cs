@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Mvc.Testing;
 namespace RehabConnect.Tests;
 
 public class FhirApiIntegrationTests
-    : IClassFixture<WebApplicationFactory<Program>>
+    : IClassFixture<RehabConnectWebApplicationFactory>
 {
     private readonly HttpClient _client;
 
     public FhirApiIntegrationTests(
-        WebApplicationFactory<Program> factory)
+    RehabConnectWebApplicationFactory factory)
     {
         _client = factory.CreateClient();
     }
