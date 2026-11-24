@@ -71,7 +71,7 @@ public class FhirApiIntegrationTests
     [Theory]
     [InlineData("/fhir/Patient?family=Smith", 1)]
     [InlineData("/fhir/Patient?family=Williams", 0)]
-    [InlineData("/fhir/Observation?patient=patient-001", 1)]
+    [InlineData("/fhir/Observation?patient=patient-001",4)]
     [InlineData("/fhir/Observation?patient=patient-999", 0)]
     public async Task Search_ReturnsFhirSearchBundle(
         string url,

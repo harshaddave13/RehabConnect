@@ -9,10 +9,7 @@ public static class FhirObservationSearch
         string? patientId,
         string baseUrl)
     {
-        var observations = new[]
-        {
-            FhirSampleData.CreatePainObservation()
-        };
+        var observations = FhirSampleData.CreatePainObservations();
 
         var matches = observations
             .Where(observation =>

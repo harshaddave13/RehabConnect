@@ -361,3 +361,16 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Local application secrets
+**/appsettings.Development.local.json
+**/appsettings.Local.json
+**/secrets.json
+
+# Temporary review files
+RehabConnect-gitignore.txt

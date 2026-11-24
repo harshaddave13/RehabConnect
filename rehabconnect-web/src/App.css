@@ -1,0 +1,172 @@
+
+#root {
+  min-height: 100vh;
+}
+
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 240px;
+  background: #16324f;
+  color: white;
+  padding: 24px;
+}
+
+.sidebar h2 {
+  font-size: 22px;
+  margin-bottom: 40px;
+}
+
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sidebar a {
+  color: #dce7f2;
+  text-decoration: none;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+  background: #285578;
+  color: white;
+}
+
+.main-content {
+  flex: 1;
+  padding: 32px;
+  background: #f5f7fb;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 28px;
+  color: #16324f;
+}
+
+.welcome {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.welcome h2 {
+  margin-top: 0;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.dashboard-card {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard-card h3 {
+  color: #16324f;
+}
+
+@media (max-width: 900px) {
+  .app-layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: auto;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+.pain-observation {
+  margin-top: 16px;
+  padding: 20px;
+  background: #f0f6fb;
+  border-left: 4px solid #285578;
+  border-radius: 8px;
+}
+
+.pain-observation h3 {
+  margin-top: 0;
+  color: #16324f;
+}
+
+
+.pain-score-container {
+  margin: 20px 0;
+  max-width: 650px;
+}
+
+.pain-score-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.pain-score-track {
+  width: 100%;
+  height: 16px;
+  background: #dbe5ee;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.pain-score-fill {
+  height: 100%;
+  background: #2878b5;
+  border-radius: 20px;
+  transition: width 0.3s ease;
+}
+
+.pain-score-scale {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 13px;
+  color: #526579;
+}
+
+
+.pain-trend {
+  margin-top: 24px;
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid #dbe5ee;
+  border-radius: 12px;
+}
+
+.pain-trend h3 {
+  margin-top: 0;
+  color: #16324f;
+}
+
+.pain-trend p {
+  color: #526579;
+  margin-bottom: 24px;
+}
+
+
